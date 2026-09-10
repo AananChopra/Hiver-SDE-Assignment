@@ -1,0 +1,133 @@
+intents:
+  - name: billing_problem
+    description: >
+      Customer was charged incorrectly, unexpectedly, or a discount (e.g. student)
+      was not applied properly to their bill.
+    inclusion_criteria:
+      - Mentions being charged, billed, or a payment amount that seems wrong
+      - Student discount not applied or applied then reversed
+      - Double-charged or charged while account shows free/inactive
+    exclusion_criteria:
+      - Premium shows as active but customer just wants to know how to cancel (see premium_activation_problem)
+      - General "how much does premium cost" questions with no billing complaint (other_unclear)
+    examples:
+      - "I'm being billed for premium but my account shows free."
+      - "my account has been charged for premium two months in a row that I wasn't signed up for."
+    approximate_frequency: 0.13
+
+  - name: account_access
+    description: >
+      Customer cannot log in, has forgotten/needs to reset their password, or
+      believes their account has been compromised (hacked).
+    inclusion_criteria:
+      - Login failure, incorrect credentials, password reset requests
+      - Account hacked / unauthorized access concerns
+    exclusion_criteria:
+      - Can log in fine but premium isn't activating (premium_activation_problem)
+      - Family member can't join a family plan (family_plan_issue)
+    examples:
+      - "I am unable to sign into my account with the correct info, even tried changing password."
+      - "can't sign into my account stupid no help whatsoever"
+    approximate_frequency: 0.085
+
+  - name: premium_activation_problem
+    description: >
+      Customer signed up for or paid for Premium, but their account does not
+      reflect Premium status, or they are having trouble with the premium
+      account state generally.
+    inclusion_criteria:
+      - Paid/signed up for premium but account shows free
+      - General "issue with my Spotify/premium account" without a specific billing or login complaint
+    exclusion_criteria:
+      - Explicit billing/charge dispute (billing_problem)
+      - Family-plan-specific invite issues (family_plan_issue)
+    examples:
+      - "hi. i have an issue about my spotify account and didnt solve yet. can you please help me?"
+      - "i cant access my spotify premium. can you help?"
+    approximate_frequency: 0.105
+
+  - name: family_plan_issue
+    description: >
+      Problems specifically with Family Premium: inviting members, members
+      unable to join, or address/verification conflicts within a family plan.
+    inclusion_criteria:
+      - Mentions "family plan", "family premium", or "family account"
+      - Invite not working, member can't join, address conflict
+    exclusion_criteria:
+      - General premium activation issues with no family-plan mention (premium_activation_problem)
+    examples:
+      - "I can't add my account to a Family Premium."
+      - "Just purchased the premium family plan but can't invite family members."
+    approximate_frequency: 0.035
+
+  - name: content_availability
+    description: >
+      Customer complains that a song, album, artist, or catalog content is
+      missing, unavailable, or was removed.
+    inclusion_criteria:
+      - "Why isn't X on Spotify", missing album/song/artist
+      - Content removed or disappeared from the catalog
+    exclusion_criteria:
+      - Content was downloaded but now won't play due to app/playback bug (playback_technical_issue)
+    examples:
+      - "why is this not on spotify??"
+      - "can you please tell me why the album I'm looking for is on here yet I can't listen to the music??"
+    approximate_frequency: 0.211
+
+  - name: playlist_feature_request
+    description: >
+      Complaints or requests about playlist functionality: shuffle behavior,
+      organizing songs, adding currently-playing tracks, playlist UI/features.
+    inclusion_criteria:
+      - Mentions "playlist" and a functionality complaint or feature ask
+      - Shuffle behavior complaints
+    exclusion_criteria:
+      - General app crash/won't-play bugs not specific to playlists (playback_technical_issue)
+    examples:
+      - "can you create a option that will shuffle play all our saved playlists"
+      - "The fact that you can't add the currently playing song to a playlist is kind of ridiculous."
+    approximate_frequency: 0.093
+
+  - name: playback_technical_issue
+    description: >
+      App bugs affecting playback or downloads: songs won't play, app crashes,
+      downloaded music disappearing, playback stopping unexpectedly.
+    inclusion_criteria:
+      - App malfunction affecting listening/playback/downloads
+      - Songs/playlists stop playing, downloads vanish
+    exclusion_criteria:
+      - Complaint is about catalog content missing, not a technical malfunction (content_availability)
+      - Complaint is specific to device/OS compatibility (platform_compatibility_issue)
+    examples:
+      - "wtf is going on with your app? I can't play most songs"
+      - "why does your app keep stopping my playlists after a single song???"
+    approximate_frequency: 0.098
+
+  - name: platform_compatibility_issue
+    description: >
+      App does not work properly on a specific device or OS version, or
+      customer is requesting the app be updated for a new device/OS.
+    inclusion_criteria:
+      - Mentions a specific device/OS (iPhone X, Android version, Apple Watch)
+      - Requests an app update for compatibility
+    exclusion_criteria:
+      - General app bug not tied to a specific device/OS (playback_technical_issue)
+    examples:
+      - "how have you not updated your app to work with the iPhone X yet"
+      - "you guys gotta update the app for iphone x"
+    approximate_frequency: 0.076
+
+  - name: other_unclear
+    description: >
+      Message does not state a specific issue — often a request to check DMs,
+      a generic "please help", or a message too vague to classify.
+    inclusion_criteria:
+      - No specific problem stated in the message itself
+      - References a DM already sent, without restating the issue
+      - Generic thanks/greeting with no actionable content
+    exclusion_criteria:
+      - Any message where a specific issue can be identified, even if brief (classify to that intent instead)
+    examples:
+      - "Hi! Please check your DM. Sent u a msg regarding my subscription."
+      - "hi folks I sent a DM to you. Really need your help :("
+    approximate_frequency: 0.168

@@ -101,17 +101,35 @@ Required per plan section 3.2 to keep evaluation credible.
 ## 8. Intent taxonomy size
 
 Decision:
-TBD — Day 2 deliverable (target 8-15 intents, discovered from the selected brand's data).
+9 intents, discovered via k-means clustering (k=10 selected by silhouette score) over
+sentence-transformer embeddings of opening customer messages from the knowledge split,
+then manually inspected and consolidated (two near-duplicate content-complaint clusters
+merged; login/security kept separate from premium-activation despite overlap, since
+they need different resolution paths). Final list: billing_problem, account_access,
+premium_activation_problem, family_plan_issue, content_availability,
+playlist_feature_request, playback_technical_issue, platform_compatibility_issue,
+other_unclear.
 
 Why:
-...
+Clustering surfaces what customers actually ask about instead of inheriting a generic
+taxonomy. 9 sits at the lower end of the 8-15 target range because SpotifyCares is a
+single-product domain (this was part of the brand-selection rationale) — a narrower
+domain genuinely has fewer distinct recurring problem types than a multi-product brand
+would.
 
 ## 9. "Other" intent
 
 Decision:
-Included as a catch-all for genuinely unclear/uncategorizable messages.
+`other_unclear` included, covering ~16.8% of opening messages — mostly customers
+publicly saying "I sent you a DM, please help" without restating their issue.
 
 Why:
+This is a real property of how Twitter support worked (issue detail moved to DM,
+invisible to this dataset), not a clustering failure. Forcing these into a specific
+intent would mean guessing from tone/implication rather than evidence — the plan
+explicitly requires being able to say "I don't know." Should default to escalation.
+Flagged for the Day 5 "what is misleading about my headline number" section since it
+caps the ceiling on classifiable messages.
 Avoids forcing ambiguous cases into ill-fitting categories, which would corrupt both the
 taxonomy and downstream classifier training signal.
 
